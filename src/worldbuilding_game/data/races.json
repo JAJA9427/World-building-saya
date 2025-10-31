@@ -1,0 +1,58 @@
+[
+  {
+    "id": "human",
+    "name": "Manusia",
+    "region": "Valmoria dan diaspora",
+    "description": "Ras petualang yang adaptif dari Valmoria, cepat belajar teknologi maupun sihir sesuai prinsip Pertukaran Setara.",
+    "stat_modifiers": {
+      "vitality": 1,
+      "finesse": 1,
+      "focus": 1
+    },
+    "abilities": [
+      "Fleksibilitas: sekali per petualangan dapat memilih ulang tindakan setelah melihat konsekuensinya."
+    ]
+  },
+  {
+    "id": "elf",
+    "name": "Elf Sylveth",
+    "region": "Hutan Sylveth",
+    "description": "Penjaga ley-line berumur panjang dengan bakat sihir hutan dan ilusi, dipimpin oleh Dewan Arcunea.",
+    "stat_modifiers": {
+      "vitality": 0,
+      "finesse": 2,
+      "focus": 2
+    },
+    "abilities": [
+      "Ritus Kanopi: dapat menenangkan makhluk liar sekali per perjalanan, menghindari pertempuran."
+    ]
+  },
+  {
+    "id": "dwarf",
+    "name": "Kurcaci Torrak",
+    "region": "Pegunungan Torrak",
+    "description": "Pengrajin klan Serikat Tambang yang ahli rune dan magitek, tahan bahaya vulkanik.",
+    "stat_modifiers": {
+      "vitality": 2,
+      "finesse": 0,
+      "focus": 1
+    },
+    "abilities": [
+      "Kulit Batu: kurangi 2 damage pertama yang diterima dalam setiap pertempuran."
+    ]
+  },
+  {
+    "id": "fae",
+    "name": "Utusan Fae",
+    "region": "Domain Court of Seasons, Sylveth",
+    "description": "Kaum peri agung yang bermain di ambang dunia fana, mahir ilusi dan negosiasi siklus alam.",
+    "stat_modifiers": {
+      "vitality": -1,
+      "finesse": 2,
+      "focus": 3
+    },
+    "abilities": [
+      "Glamour Musiman: bonus besar pada diplomasi saat berhadapan dengan faksi alam atau selama musim pasang terkait."
+    ]
+  }
+]

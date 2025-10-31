@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Slime Entropik",
+    "tier": 1,
+    "region": "Valmoria",
+    "hit_points": 12,
+    "attack": 4,
+    "traits": ["Asam melarutkan logam rendah", "Terbentuk dari residu entropi mana"],
+    "lore": "Sering muncul di reruntuhan dungeon magis atau lokasi ledakan mana dekat Arkhaven.",
+    "loot": ["Gel entropi", "Fragmen kristal kusam"]
+  },
+  {
+    "name": "Golem Pualam Arkhani",
+    "tier": 4,
+    "region": "Valmoria",
+    "hit_points": 32,
+    "attack": 9,
+    "traits": ["Kulit sekeras batu", "Mata berkilau biru dari inti mana"],
+    "lore": "Patung ksatria yang kehilangan kendali di ruang bawah tanah istana Mahkota Arkhani.",
+    "loot": ["Fragmen pualam berukir", "Inti mana teratur"]
+  },
+  {
+    "name": "Macan Kabut",
+    "tier": 7,
+    "region": "Sylveth",
+    "hit_points": 28,
+    "attack": 11,
+    "traits": ["Menghilang dalam kabut ley", "Serangan kejutan mematikan"],
+    "lore": "Predator hutan hujan purba yang menjaga altar portal di Sylveth.",
+    "loot": ["Kulit berpendar", "Esensi kabut"]
+  },
+  {
+    "name": "Salamander Sungai Kolosal",
+    "tier": 8,
+    "region": "Orontes",
+    "hit_points": 34,
+    "attack": 10,
+    "traits": ["Mengendalikan arus delta", "Kulit berlendir tahan panas"],
+    "lore": "Penjaga alami bendungan sakral Orontes yang marah saat ritual pasang diganggu.",
+    "loot": ["Sisik delta", "Inti pasang"]
+  },
+  {
+    "name": "Naga Magma",
+    "tier": 9,
+    "region": "Torrak",
+    "hit_points": 40,
+    "attack": 13,
+    "traits": ["Sayap berapi", "Muntahan lava"],
+    "lore": "Penjaga kawah suci klan Torrak, hanya bangkit saat keseimbangan magma terganggu.",
+    "loot": ["Skala magma", "Jantung lava"]
+  }
+]

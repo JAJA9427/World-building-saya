@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mana-hearth-adventure"
+version = "0.1.0"
+description = "Narrative CLI adventure based on Mana Hearth worldbuilding"
+readme = "README.md"
+authors = [{name = "Worldbuilding Saya"}]
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+

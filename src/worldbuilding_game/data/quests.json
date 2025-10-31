@@ -1,0 +1,86 @@
+[
+  {
+    "id": "arkhaven_slime",
+    "name": "Membersihkan Slime Entropik",
+    "region": "Valmoria",
+    "giver": "Guild Navigasi Celestial",
+    "summary": "Slime entropik mengganggu astrolab di distrik alkimia Arkhaven.",
+    "objectives": [
+      "Selidiki distrik alkimia saat malam pasang Perak",
+      "Kalahkan kawanan slime entropik",
+      "Segel retakan ley menggunakan kristal penyeimbang"
+    ],
+    "rewards": {
+      "xp": 120,
+      "gold": 80,
+      "items": ["Astrolab terkalibrasi", "Resep ramuan kestabilan"],
+      "equipment": ["Sarung tangan anti-entropi"],
+      "skills": ["Perisai mana reaktif"],
+      "affinities": {"Arcana": 1},
+      "reputation": {"Guild Navigasi Celestial": 2}
+    }
+  },
+  {
+    "id": "sylveth_colossi",
+    "name": "Tenangkan Kolosi Hutan",
+    "region": "Sylveth",
+    "giver": "Court of Verdant Aurora",
+    "summary": "Raksasa pepohonan terbangun selama musim pasang Hijau dan mengancam ritual fey.",
+    "objectives": [
+      "Lacak pola kabut dan temukan kolosi yang resah",
+      "Lakukan ritus kanopi atau tawarkan esensi kabut",
+      "Laporkan kembali ke archdruid"
+    ],
+    "rewards": {
+      "xp": 180,
+      "gold": 110,
+      "items": ["Benih ley bercahaya", "Jubah daun berbisik"],
+      "equipment": ["Totem aurora mini"],
+      "skills": ["Nyanyian penenang fauna"],
+      "affinities": {"Naturae": 2},
+      "reputation": {"Court of Verdant Aurora": 3}
+    }
+  },
+  {
+    "id": "orontes_bendungan",
+    "name": "Perkuat Bendungan Pasang",
+    "region": "Orontes",
+    "giver": "Imam Pasang",
+    "summary": "Salamander sungai kolosal merusak bendungan garam menjelang musim pasang Darah.",
+    "objectives": [
+      "Kumpulkan bantuan dari serikat kapal",
+      "Hadapi salamander dan jinakkan amarahnya",
+      "Sempurnakan ritual pasang untuk menenangkan air"
+    ],
+    "rewards": {
+      "xp": 200,
+      "gold": 140,
+      "items": ["Sigil pasang darah", "Hak dagang garam musiman"],
+      "equipment": ["Jubah ombak resonan"],
+      "skills": ["Mediasi pasang"],
+      "affinities": {"Diplomasi": 1, "Navigasi": 1},
+      "reputation": {"Serikat Kapal Orontes": 3}
+    }
+  },
+  {
+    "id": "torrak_magma",
+    "name": "Segel Kembali Kawah Ember",
+    "region": "Torrak",
+    "giver": "Clans of Ember",
+    "summary": "Letusan kawah membuka jalur bagi naga magma untuk bangkit.",
+    "objectives": [
+      "Temukan runestone kuno di reruntuhan dwergar",
+      "Hadapi penjaga kalajengking vulkanik",
+      "Aktifkan segel magma sebelum naga bangkit"
+    ],
+    "rewards": {
+      "xp": 240,
+      "gold": 160,
+      "items": ["Paludarium magma", "Piagam dagang mithril"],
+      "equipment": ["Perisai magma ringan"],
+      "skills": ["Ritual penyegelan kawah"],
+      "affinities": {"Ketahanan": 2},
+      "reputation": {"Clans of Ember": 3}
+    }
+  }
+]
