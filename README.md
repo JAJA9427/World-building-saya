@@ -26,19 +26,8 @@ Pastikan modul dapat ditemukan dengan menambahkan direktori `src` ke
 PYTHONPATH=src python -m worldbuilding_game.game
 ```
 
-Perintah di atas menjalankan mode interaktif dengan menu komando. Setelah
-menciptakan karakter Anda dapat memilih aksi berikut kapan pun:
-
-- **Lanjutkan perjalanan** untuk memilih tujuan, menyimak peristiwa lokal hingga
-  global, serta menyelesaikan quest yang tersedia.
-- **Lihat status tim** guna menampilkan HUD lengkap.
-- **Tampilkan informasi dunia** untuk membaca ringkasan lore tanpa meninggalkan
-  sesi permainan.
-- **Istirahat dan pulihkan diri** yang memulihkan HP dan mengganti buff
-  sementara sebelum aksi berikutnya.
-- **Keluar petualangan** jika ingin mengakhiri sesi.
-
-Untuk demo otomatis (tanpa input) pakai:
+Perintah di atas menjalankan mode interaktif. Untuk demo otomatis (tanpa input)
+pakai:
 
 ```bash
 PYTHONPATH=src python -m worldbuilding_game.game --auto --seed 42 --rounds 2

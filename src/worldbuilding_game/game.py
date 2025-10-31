@@ -207,192 +207,116 @@ def create_player(decider: DecisionProvider, data: GameData, rng: random.Random)
     return player
 
 
-class GameSession:
-    """Stateful loop that lets players explore the world with menu commands."""
+def travel_round(
+    player: Player,
+    decider: DecisionProvider,
+    data: GameData,
+    rng: random.Random,
+    round_index: int,
+) -> None:
+    locations = build_locations(data.world["locations"])
+    quests = build_quests(data.quests)
+    monsters = build_monsters(data.monsters)
 
-    def __init__(
-        self,
-        player: Player,
-        decider: DecisionProvider,
-        data: GameData,
-        rng: random.Random,
-        max_rounds: int | None = None,
-    ) -> None:
-        self.player = player
-        self.decider = decider
-        self.data = data
-        self.rng = rng
-        self.max_rounds = max_rounds
-        self.travel_count = 0
-        self.locations = build_locations(data.world["locations"])
-        self.quests = build_quests(data.quests)
-        self.monsters = build_monsters(data.monsters)
+    print_header(f"Ronde Perjalanan {round_index}")
+    location_choice, note = decider.choose(
+        "Ke mana Anda akan pergi?",
+        [f"{loc.name} ({loc.region})" for loc in locations],
+    )
+    print(note)
+    selected_location = next(loc for loc in locations if f"{loc.name} ({loc.region})" == location_choice)
 
-    def run(self) -> None:
-        while True:
-            options = [
-                "Lanjutkan perjalanan",
-                "Lihat status tim",
-                "Tampilkan informasi dunia",
-                "Istirahat dan pulihkan diri",
-                "Keluar petualangan",
-            ]
-            choice, note = self.decider.choose("Apa yang ingin Anda lakukan selanjutnya?", options)
-            print(note)
+    player.set_location(selected_location.name, selected_location.region)
+    player.advance_time(3)
+    player.clear_temporary_buffs()
 
-            if choice.startswith("Lanjutkan"):
-                if self.perform_travel_round():
-                    self.travel_count += 1
-                    if self.max_rounds is not None and self.travel_count >= self.max_rounds:
-                        print("\nSimulasi otomatis telah mencapai batas ronde.")
-                        break
-            elif choice.startswith("Lihat status"):
-                display_hud(self.player)
-            elif choice.startswith("Tampilkan informasi dunia"):
-                describe_world(self.data)
-            elif choice.startswith("Istirahat"):
-                self.rest()
-            else:
-                print("\nSampai jumpa pada petualangan berikutnya!")
-                break
+    print(f"\nAnda mencapai {selected_location.name}, {selected_location.description}")
+    if selected_location.factions:
+        print("Faksi berpengaruh: " + ", ".join(selected_location.factions))
+    print("Rumor lokal: " + roll_event(selected_location, "rumor", rng))
 
-            if self.player.is_defeated:
-                print("\nPetualangan berakhir lebih cepat dari yang diharapkan.")
-                break
+    team_events = generate_team_events(selected_location, data.world, rng)
+    for scale, description in team_events.items():
+        print(f"{scale}: {description}")
+        if scale == "Global":
+            player.update_world_event(description)
 
-    def perform_travel_round(self) -> bool:
-        round_number = self.travel_count + 1
-        print_header(f"Ronde Perjalanan {round_number}")
-        location_labels = [f"{loc.name} ({loc.region})" for loc in self.locations]
-        location_labels.append("Batalkan perjalanan")
-        location_choice, note = self.decider.choose(
-            "Ke mana Anda akan pergi?",
-            location_labels,
+    region_quests = quests_for_region(quests, selected_location.region)
+    if not region_quests:
+        print("Tidak ada quest utama di wilayah ini saat ini.")
+        return
+
+    quest_choice, note = decider.choose(
+        "Quest mana yang ingin Anda tangani?",
+        [quest.name for quest in region_quests],
+    )
+    print(note)
+    quest = next(q for q in region_quests if q.name == quest_choice)
+    print(f"\n{quest.giver} menawarkan misi '{quest.name}'.")
+    print(textwrap.fill(quest.summary, width=80))
+    print("Langkah-langkah:")
+    print(format_objectives(quest.objectives))
+
+    player.set_active_quest(quest.name)
+    display_hud(player)
+
+    monster = select_monster(monsters, quest.region, rng)
+    print("\nAncaman utama yang menghadang:")
+    print(describe_monster(monster))
+
+    approach_options = [
+        "Serangan Langsung (bonus damage)",
+        "Diplomasi dan Perlindungan (pengurangan damage)",
+        "Riset Arcana (bonus terhadap monster sihir)",
+        "Strategi Kustom",
+    ]
+    approach_choice, note = decider.choose("Bagaimana pendekatan tim Anda?", approach_options)
+    print(note)
+    attack_bonus = 0
+    defense_bonus = 0
+    if approach_choice.startswith("Serangan Langsung"):
+        attack_bonus = 2
+        player.add_buff("Momentum Serangan (sementara)")
+    elif approach_choice.startswith("Diplomasi"):
+        defense_bonus = 2
+        player.add_buff("Aura Kedamaian (sementara)")
+        for faction in selected_location.factions:
+            player.adjust_reputation(faction, 1)
+    elif approach_choice.startswith("Riset Arcana"):
+        attack_bonus = 1
+        defense_bonus = 1
+        player.add_buff("Runic Insight (sementara)")
+        player.add_skill("Analisis ley cepat")
+    else:
+        custom_plan = decider.ask_text("Jelaskan strategi kustom tim Anda:", default="Manuver ley adaptif")
+        player.add_buff(f"Strategi: {custom_plan} (sementara)")
+        if "perdagangan" in custom_plan.lower():
+            player.gain_gold(10)
+        attack_bonus = 1
+
+    combat_log = resolve_combat(
+        player,
+        monster,
+        rng,
+        attack_bonus=attack_bonus,
+        defense_bonus=defense_bonus,
+    )
+    print("\nHasil pertempuran:")
+    for entry in combat_log.rounds:
+        print("- " + entry)
+    if combat_log.player_won:
+        print(f"\n{player.name} menang! HP tersisa {combat_log.remaining_health}.")
+        apply_rewards(player, quest)
+        player.set_active_quest(None)
+        print(
+            f"Pengalaman total: {player.xp} | Inventaris: {', '.join(player.inventory) if player.inventory else 'Kosong'}"
         )
-        print(note)
-        if location_choice == "Batalkan perjalanan":
-            print("Anda memutuskan menunda perjalanan dan tetap bersiaga.")
-            return False
+    else:
+        print(f"\n{player.name} tumbang! Anda terpaksa mundur dan memulihkan diri di Arkhaven.")
+        player.heal_to_full()
 
-        selected_location = next(
-            loc for loc in self.locations if f"{loc.name} ({loc.region})" == location_choice
-        )
-
-        self.player.set_location(selected_location.name, selected_location.region)
-        self.player.advance_time(3)
-        self.player.clear_temporary_buffs()
-
-        print(f"\nAnda mencapai {selected_location.name}, {selected_location.description}")
-        if selected_location.factions:
-            print("Faksi berpengaruh: " + ", ".join(selected_location.factions))
-        print("Rumor lokal: " + roll_event(selected_location, "rumor", self.rng))
-
-        team_events = generate_team_events(selected_location, self.data.world, self.rng)
-        for scale, description in team_events.items():
-            print(f"{scale}: {description}")
-            if scale == "Global":
-                self.player.update_world_event(description)
-
-        region_quests = quests_for_region(self.quests, selected_location.region)
-        if not region_quests:
-            print("Tidak ada quest utama di wilayah ini saat ini.")
-            return True
-
-        quest_options = [quest.name for quest in region_quests]
-        quest_options.append("Lewati quest ini")
-        quest_choice, note = self.decider.choose(
-            "Quest mana yang ingin Anda tangani?",
-            quest_options,
-        )
-        print(note)
-        if quest_choice == "Lewati quest ini":
-            print("Anda memilih untuk mengamati situasi tanpa campur tangan langsung.")
-            self.player.set_active_quest(None)
-            self.player.advance_time(1)
-            display_hud(self.player)
-            return True
-
-        quest = next(q for q in region_quests if q.name == quest_choice)
-        print(f"\n{quest.giver} menawarkan misi '{quest.name}'.")
-        print(textwrap.fill(quest.summary, width=80))
-        print("Langkah-langkah:")
-        print(format_objectives(quest.objectives))
-
-        self.player.set_active_quest(quest.name)
-        display_hud(self.player)
-
-        monster = select_monster(self.monsters, quest.region, self.rng)
-        print("\nAncaman utama yang menghadang:")
-        print(describe_monster(monster))
-
-        approach_options = [
-            "Serangan Langsung (bonus damage)",
-            "Diplomasi dan Perlindungan (pengurangan damage)",
-            "Riset Arcana (bonus terhadap monster sihir)",
-            "Strategi Kustom",
-        ]
-        approach_choice, note = self.decider.choose("Bagaimana pendekatan tim Anda?", approach_options)
-        print(note)
-        attack_bonus = 0
-        defense_bonus = 0
-        if approach_choice.startswith("Serangan Langsung"):
-            attack_bonus = 2
-            self.player.add_buff("Momentum Serangan (sementara)")
-        elif approach_choice.startswith("Diplomasi"):
-            defense_bonus = 2
-            self.player.add_buff("Aura Kedamaian (sementara)")
-            for faction in selected_location.factions:
-                self.player.adjust_reputation(faction, 1)
-        elif approach_choice.startswith("Riset Arcana"):
-            attack_bonus = 1
-            defense_bonus = 1
-            self.player.add_buff("Runic Insight (sementara)")
-            self.player.add_skill("Analisis ley cepat")
-        else:
-            custom_plan = self.decider.ask_text(
-                "Jelaskan strategi kustom tim Anda:", default="Manuver ley adaptif"
-            )
-            self.player.add_buff(f"Strategi: {custom_plan} (sementara)")
-            if "perdagangan" in custom_plan.lower():
-                self.player.gain_gold(10)
-            attack_bonus = 1
-
-        combat_log = resolve_combat(
-            self.player,
-            monster,
-            self.rng,
-            attack_bonus=attack_bonus,
-            defense_bonus=defense_bonus,
-        )
-        print("\nHasil pertempuran:")
-        for entry in combat_log.rounds:
-            print("- " + entry)
-        if combat_log.player_won:
-            print(f"\n{self.player.name} menang! HP tersisa {combat_log.remaining_health}.")
-            apply_rewards(self.player, quest)
-            self.player.set_active_quest(None)
-            print(
-                "Pengalaman total: "
-                f"{self.player.xp} | Inventaris: "
-                f"{', '.join(self.player.inventory) if self.player.inventory else 'Kosong'}"
-            )
-        else:
-            print(
-                f"\n{self.player.name} tumbang! Anda terpaksa mundur dan memulihkan diri di Arkhaven."
-            )
-            self.player.heal_to_full()
-
-        self.player.advance_time(3)
-        display_hud(self.player)
-        return True
-
-    def rest(self) -> None:
-        print("\nTim mengambil waktu untuk beristirahat dan memulihkan energi.")
-        self.player.heal_to_full()
-        self.player.advance_time(6)
-        self.player.clear_temporary_buffs()
-        self.player.add_buff("Kesiapan Baru (sementara)")
-        display_hud(self.player)
+    player.advance_time(3)
+    display_hud(player)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -404,12 +328,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         nargs="*",
         help="Urutan pilihan untuk mode otomatis (misal: 1 0 2).",
     )
-    parser.add_argument(
-        "--rounds",
-        type=int,
-        default=None,
-        help="Jumlah ronde perjalanan untuk mode otomatis.",
-    )
+    parser.add_argument("--rounds", type=int, default=3, help="Jumlah ronde perjalanan.")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     rng = random.Random(args.seed)
@@ -424,14 +343,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     describe_world(data)
     player = create_player(decider, data, rng)
 
-    session = GameSession(
-        player,
-        decider,
-        data,
-        rng,
-        max_rounds=args.rounds if args.auto else None,
-    )
-    session.run()
+    for round_index in range(1, args.rounds + 1):
+        travel_round(player, decider, data, rng, round_index)
+        if player.is_defeated:
+            print("\nPetualangan berakhir lebih cepat dari yang diharapkan.")
+            break
 
     print("\nTerima kasih telah menjelajah Mana Hearth!")
     return 0
