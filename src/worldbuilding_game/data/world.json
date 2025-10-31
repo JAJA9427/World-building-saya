@@ -1,0 +1,207 @@
+{
+  "world_name": "Mana Hearth",
+  "planet": "Gaion",
+  "summary": "Planet berukuran lima kali Bumi yang distabilkan oleh inti Mana Hearth dan memiliki ekologi sihir yang kaya.",
+  "day_length_hours": 25,
+  "year_length_days": 390,
+  "moon_count": 2,
+  "tidal_seasons": [
+    {
+      "name": "Perak",
+      "description": "Arus laut lembut yang memicu migrasi angsa musim perak dan membuka jalur dagang pesisir."
+    },
+    {
+      "name": "Darah",
+      "description": "Pasang tinggi penuh sedimen merah yang sering memicu konflik antar armada dan ritual pengorbanan lama."
+    },
+    {
+      "name": "Hijau",
+      "description": "Hutan bakau berkembang pesat, memunculkan kawanan rubah daun Sylveth dan peluang herbal langka."
+    },
+    {
+      "name": "Hitam",
+      "description": "Arus ganas dengan badai ether yang memunculkan penunggang Void dan monster chaos lainnya."
+    }
+  ],
+  "locations": [
+    {
+      "name": "Arkhaven",
+      "region": "Valmoria",
+      "type": "kota",
+      "description": "Ibu kota Mahkota Arkhani, hub perdagangan gandum dan sihir pertahanan yang dibangun di atas segel Avatar Entropi.",
+      "factions": [
+        "Mahkota Arkhani",
+        "Guild Navigasi Celestial"
+      ],
+      "encounter_tables": {
+        "rumor": [
+          "Ksatria spektral terlihat di katakombe bawah istana.",
+          "Para peneliti ley-line membutuhkan sampel rubah api untuk penelitian kestabilan mana.",
+          "Pelaut menyebut badai musim Hitam mendekat dari barat.",
+          "Duta Orontes membawa kabar pajak garam baru untuk pasar Valmoria.",
+          "Prajurit veteran mengaku melihat portal kecil ke Arkipelag Aether."
+        ],
+        "travel": [
+          "Serangan bandit manusia yang putus asa akibat embargo kayu Torrak.",
+          "Caravan Orontes menawarkan kontrak pengawalan menuju Pelabuhan Delta.",
+          "Ledakan mana kecil mengguncang distrik alkimia, memunculkan slime entropik.",
+          "Festival pasar malam membuka lelang artefak kuno.",
+          "Badai pasir eter melintas, memaksa semua magi berlindung."
+        ]
+      }
+    },
+    {
+      "name": "Hutan Sylveth",
+      "region": "Sylveth",
+      "type": "zona liar",
+      "description": "Hutan hujan purba yang dijaga High Elf, penuh ley-line dan koloni fae.",
+      "factions": [
+        "Court of Verdant Aurora"
+      ],
+      "encounter_tables": {
+        "rumor": [
+          "Menjangan ley terlihat menuntun cahaya ke altar kuno.",
+          "Fey meminta bantuan untuk menenangkan kolosi hutan yang terbangun.",
+          "Jejak macan kabut mengelilingi portal musiman.",
+          "Kolibri spirit membawa pesan mendesak dari Court of Verdant Aurora.",
+          "Ritual bulan hijau memerlukan kristal dari Torrak."
+        ],
+        "travel": [
+          "Kabut tebal memaksa rombongan memilih jalur ley-line yang berisiko.",
+          "Gerombolan kumbang ilusi mengganggu konsentrasi para penyihir.",
+          "Suku elf penjaga memeriksa izin perjalanan Anda dengan ritual empati.",
+          "Akar hidup menutup jalan dan meminta lagu kuno untuk membuka jalur.",
+          "Hujan cahaya aurora menambah kekuatan pada rune perlindungan Anda."
+        ]
+      }
+    },
+    {
+      "name": "Pelabuhan Delta Orontes",
+      "region": "Orontes",
+      "type": "kota",
+      "description": "Metropolis delta sungai dengan hierarki teokratis dan armada perdagangan garam.",
+      "factions": [
+        "Imam Pasang",
+        "Serikat Kapal Orontes"
+      ],
+      "encounter_tables": {
+        "rumor": [
+          "Pemuja pasang darah meramalkan gerhana kembar yang langka.",
+          "Salamander sungai kolosal merusak bendungan di hulu.",
+          "Delegasi Torrak menawar gandum Arkhaven dengan harga tinggi.",
+          "Kapal udara Valmoria akan membuka jalur pos cepat ke delta.",
+          "Badai garam memaksa kuil menutup akses publik sementara."
+        ],
+        "travel": [
+          "Gelombang pasang darah mengguncang dermaga saat upacara suci.",
+          "Bajak laut rawa mencoba merebut kargo ramuan musim Hijau.",
+          "Kafilah delta tersesat saat kompas gagal bekerja.",
+          "Pelayar naga air menawarkan tumpangan cepat dengan biaya tinggi.",
+          "Kuil pasang mengadakan inspeksi mendadak pada semua kargo yang lewat."
+        ]
+      }
+    },
+    {
+      "name": "Pegunungan Torrak",
+      "region": "Torrak",
+      "type": "zona liar",
+      "description": "Bentang vulkanik kaya mineral dengan tambang kristal dan suku keras kepala yang menyembah magma.",
+      "factions": [
+        "Clans of Ember",
+        "Penambang Kristal Bebas"
+      ],
+      "encounter_tables": {
+        "rumor": [
+          "Naga magma terlihat melayang di atas kawah suci.",
+          "Tambang kristal runtuh akibat cacing magma raksasa.",
+          "Utusan Arkhaven mencari logam mithril pengganti baja langka.",
+          "Gurun abu memuntahkan artefak dwergar bercahaya senja.",
+          "Orang-orang api menawarkan kesepakatan dagang minyak magma."
+        ],
+        "travel": [
+          "Letusan kecil memaksa Anda berlindung di gua guano.",
+          "Kalajengking vulkanik menjaga jalur ke depot bahan bakar.",
+          "Gempa ley membuka lorong menuju reruntuhan dwergar kuno.",
+          "Hujan batu bara panas memaksa rombongan menggunakan perisai magma.",
+          "Konvoi penambang bebas mencari pengawal tambahan menuju Valmoria."
+        ]
+      }
+    }
+  ],
+  "regional_events": {
+    "Valmoria": [
+      "Valmoria: Mahkota Arkhani mengumumkan tender rekonstruksi tembok ley.",
+      "Valmoria: Harga gandum melonjak akibat embargo ekspor sementara.",
+      "Valmoria: Guild Navigasi menawar kontrak ekspedisi bulan darah."
+    ],
+    "Sylveth": [
+      "Sylveth: Spirit hutan meminta gencatan senjata dengan pemburu manusia.",
+      "Sylveth: Kabut hijau membuka jalan rahasia menuju kolam memori.",
+      "Sylveth: Court Verdant mengadakan simposium aliran ley terbuka."
+    ],
+    "Orontes": [
+      "Orontes: Pasar garam menetapkan kuota baru untuk ekspor Valmoria.",
+      "Orontes: Armada delta merekrut navigator tambahan untuk musim badai.",
+      "Orontes: Imam Pasang mengumumkan ziarah perdamaian ke Torrak."
+    ],
+    "Torrak": [
+      "Torrak: Dewan magma menawarkan konsesi tambang bagi sekutu luar.",
+      "Torrak: Letusan terkontrol membuka akses ke lorong kristal baru.",
+      "Torrak: Clans of Ember mengirim duta untuk memperbaiki hubungan dengan Arkhaven."
+    ]
+  },
+  "global_events": {
+    "economy": [
+      "Harga mithril turun di Torrak namun melonjak tiga kali lipat di Arkhaven.",
+      "Barang herbal Sylveth menjadi murah setelah panen aurora berlimpah.",
+      "Perdagangan garam Orontes dikenakan tarif baru oleh Mahkota Arkhani."
+    ],
+    "weather": [
+      "Badai ether menyelimuti pantai selatan, mengalihkan rute kapal dagang.",
+      "Gelombang panas magma menyebar hingga lembah Valmoria.",
+      "Badai petir ley menyambar menara observatorium Guild Navigasi."
+    ],
+    "faction": [
+      "Faksi penunggang Void merundingkan gencatan senjata dengan Court Verdant.",
+      "Mahkota Arkhani menawarkan beasiswa akademi untuk duta Orontes.",
+      "Clans of Ember dan Guild Navigasi menandatangani pakta berbagi peta."
+    ],
+    "mystic": [
+      "Avatar Entropi beresonansi, memicu fenomena mimpi kolektif di seluruh benua.",
+      "Ritus bulan ganda membuka jalur portal sementara antara Valmoria dan Sylveth.",
+      "Artefak kuno dari reruntuhan dwergar memancarkan sinyal kepada penjaga bintang."
+    ]
+  },
+  "factions": [
+    {
+      "name": "Mahkota Arkhani",
+      "focus": "Militer dan sihir pertahanan",
+      "goal": "Menjaga kestabilan Valmoria dan segel Avatar Entropi.",
+      "region": "Valmoria"
+    },
+    {
+      "name": "Guild Navigasi Celestial",
+      "focus": "Astronomi dan ritual navigasi",
+      "goal": "Menggantikan kompas magnetik dengan peta bintang magis untuk armada dagang.",
+      "region": "Valmoria"
+    },
+    {
+      "name": "Court of Verdant Aurora",
+      "focus": "Druidisme elf dan penjagaan ley-line",
+      "goal": "Menyeimbangkan ekstraksi mana dengan ekologi hutan Sylveth.",
+      "region": "Sylveth"
+    },
+    {
+      "name": "Serikat Kapal Orontes",
+      "focus": "Perdagangan delta dan kontrol pasang",
+      "goal": "Menguasai jalur logistik selama musim pasang darah.",
+      "region": "Orontes"
+    },
+    {
+      "name": "Clans of Ember",
+      "focus": "Penguasaan logam dan ritus magma",
+      "goal": "Mendominasi ekspor mineral langka ke Valmoria.",
+      "region": "Torrak"
+    }
+  ]
+}
