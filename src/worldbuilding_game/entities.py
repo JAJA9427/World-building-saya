@@ -103,11 +103,6 @@ class Player:
     vitality: int = 5
     finesse: int = 5
     focus: int = 5
-    strength: int = 5
-    dexterity: int = 5
-    intellect: int = 5
-    charisma: int = 5
-    wisdom: int = 5
     xp: int = 0
     inventory: List[str] = field(default_factory=list)
     equipment: List[str] = field(default_factory=list)
@@ -123,7 +118,6 @@ class Player:
     current_day: int = 1
     current_hour: int = 6
     world_event: str = "Tenang"
-    traits: List[str] = field(default_factory=list)
     current_health: int = field(init=False)
 
     def __post_init__(self) -> None:
@@ -197,10 +191,6 @@ class Player:
     def clear_temporary_buffs(self) -> None:
         self.buffs = [buff for buff in self.buffs if "(sementara)" not in buff]
 
-    def add_trait(self, trait: str) -> None:
-        if trait not in self.traits:
-            self.traits.append(trait)
-
     def add_affinity(self, name: str, value: int) -> None:
         self.affinities[name] = self.affinities.get(name, 0) + value
 
@@ -210,131 +200,6 @@ class Player:
     def record_quest_completion(self, quest_name: str) -> None:
         if quest_name not in self.completed_quests:
             self.completed_quests.append(quest_name)
-
-    @property
-    def stats(self) -> Dict[str, int]:
-        """Return a mutable mapping of the primary stats."""
-        return {
-            "strength": self.strength,
-            "dexterity": self.dexterity,
-            "intellect": self.intellect,
-            "charisma": self.charisma,
-            "vitality": self.vitality,
-            "wisdom": self.wisdom,
-            "finesse": self.finesse,
-            "focus": self.focus,
-        }
-
-    def derived_stats(self) -> Dict[str, int]:
-        """Compute derived stats used by advanced systems."""
-        mana = self.intellect * 2 + self.wisdom
-        carry = self.strength * 5 + self.vitality * 2
-        morale = self.charisma + self.wisdom + len(self.buffs)
-        return {"mana": mana, "carry_capacity": carry, "morale": morale}
-
-    def to_dict(self) -> Dict[str, object]:
-        """Serialize the player for save games."""
-        return {
-            "name": self.name,
-            "race_id": self.race.id,
-            "race_region": self.race.region,
-            "role": self.role,
-            "vitality": self.vitality,
-            "finesse": self.finesse,
-            "focus": self.focus,
-            "strength": self.strength,
-            "dexterity": self.dexterity,
-            "intellect": self.intellect,
-            "charisma": self.charisma,
-            "wisdom": self.wisdom,
-            "xp": self.xp,
-            "inventory": list(self.inventory),
-            "equipment": list(self.equipment),
-            "skills": list(self.skills),
-            "buffs": list(self.buffs),
-            "traits": list(self.traits),
-            "affinities": dict(self.affinities),
-            "reputation": dict(self.reputation),
-            "gold": self.gold,
-            "rank": self.rank,
-            "active_quest": self.active_quest,
-            "completed_quests": list(self.completed_quests),
-            "location": self.location,
-            "current_day": self.current_day,
-            "current_hour": self.current_hour,
-            "world_event": self.world_event,
-            "current_health": self.current_health,
-        }
-
-    @classmethod
-    def from_dict(cls, data: Dict[str, object], race_catalog: Dict[str, Race]) -> "Player":
-        race_id = str(data["race_id"])
-        race = race_catalog[race_id]
-        player = cls(
-            name=str(data["name"]),
-            race=race,
-            role=str(data.get("role", "Adventurer")),
-            vitality=int(data.get("vitality", 5)),
-            finesse=int(data.get("finesse", 5)),
-            focus=int(data.get("focus", 5)),
-            strength=int(data.get("strength", 5)),
-            dexterity=int(data.get("dexterity", 5)),
-            intellect=int(data.get("intellect", 5)),
-            charisma=int(data.get("charisma", 5)),
-            wisdom=int(data.get("wisdom", 5)),
-            xp=int(data.get("xp", 0)),
-            inventory=list(data.get("inventory", [])),
-            equipment=list(data.get("equipment", [])),
-            skills=list(data.get("skills", [])),
-            buffs=list(data.get("buffs", [])),
-            affinities=dict(data.get("affinities", {})),
-            reputation=dict(data.get("reputation", {})),
-            gold=int(data.get("gold", 0)),
-            rank=str(data.get("rank", "Inisiat Bebas")),
-            active_quest=data.get("active_quest"),
-            completed_quests=list(data.get("completed_quests", [])),
-            location=str(data.get("location", "Arkhaven")),
-            current_day=int(data.get("current_day", 1)),
-            current_hour=int(data.get("current_hour", 6)),
-            world_event=str(data.get("world_event", "Tenang")),
-            traits=list(data.get("traits", [])),
-        )
-        player.current_health = int(data.get("current_health", player.max_health))
-        return player
-
-    def clone(self) -> "Player":
-        race = self.race
-        copy = Player(
-            name=self.name,
-            race=race,
-            role=self.role,
-            vitality=self.vitality,
-            finesse=self.finesse,
-            focus=self.focus,
-            strength=self.strength,
-            dexterity=self.dexterity,
-            intellect=self.intellect,
-            charisma=self.charisma,
-            wisdom=self.wisdom,
-            xp=self.xp,
-            inventory=list(self.inventory),
-            equipment=list(self.equipment),
-            skills=list(self.skills),
-            buffs=list(self.buffs),
-            affinities=dict(self.affinities),
-            reputation=dict(self.reputation),
-            gold=self.gold,
-            rank=self.rank,
-            active_quest=self.active_quest,
-            completed_quests=list(self.completed_quests),
-            location=self.location,
-            current_day=self.current_day,
-            current_hour=self.current_hour,
-            world_event=self.world_event,
-            traits=list(self.traits),
-        )
-        copy.current_health = self.current_health
-        return copy
 
 
 
